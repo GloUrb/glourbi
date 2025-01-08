@@ -50,9 +50,12 @@ all_cities=all_cities %>%
   mutate(selection1_GSW=case_when(ID %in% selection1_GSW$CityCode~ TRUE,
                            TRUE~ FALSE),
          selection1_Discourses=case_when(ID %in% txt_city_rivers$citycode~TRUE,
-                                         TRUE~FALSE))
+                                         TRUE~FALSE)) %>%
+  mutate(Urban.Aggl=case_when(Urban.Aggl=="Santiago" & Country.or=="Chile"~"Santiago, Chile",
+                              Urban.Aggl=="Santiago" & Country.or=="Dominican Republic"~"Santiago, D.R.",
+                              TRUE~Urban.Aggl))
 
-
+all_cities %>% filter(stringr::str_detect(Urban.Aggl, "Santiago"))
 
 usethis::use_data(all_cities, overwrite = TRUE)
 
