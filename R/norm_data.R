@@ -10,27 +10,28 @@
 #' norm_data(all_cities)
 norm_data <- function(dataset, label="name", type="rank"){
   # Keep only complete rows
-  datacomp=dataset %>% 
-    sep_vars() %>% 
+  datacomp=dataset %>%
+    sep_vars() %>%
     .$dataset
-  vars_num=dataset %>% 
-    sep_vars() %>% 
+  vars_num=dataset %>%
+    sep_vars() %>%
     .$vars_num
-  
-  dataset_norm=datacomp[,vars_num] %>% 
-    dplyr::select_if(is.numeric)
-  if(type=="rank"){
-    dataset_norm=dataset_norm %>% 
-      dplyr::mutate_all(~rank(.)) 
-  }
-  if(type=="center_and_scale"){
-    dataset_norm=dataset_norm %>% 
-      dplyr::mutate_all(~.-mean(.)) %>%
-      dplyr::mutate_all(~./sd(.)) 
-  }
-  dataset_norm=dataset_norm %>% 
-    dplyr::mutate(name=datacomp[[label]]) %>% 
-    tibble::column_to_rownames({{label}})
-  
+  vars_num=vars_num[vars_num %in% colnames(dataset)]
+  if(length(vars_num)>0){
+      dataset_norm=datacomp[,vars_num] %>%
+        dplyr::select_if(is.numeric)
+      if(type=="rank"){
+        dataset_norm=dataset_norm %>%
+          dplyr::mutate_all(~rank(.))
+      }
+      if(type=="center_and_scale"){
+        dataset_norm=dataset_norm %>%
+          dplyr::mutate_all(~.-mean(.)) %>%
+          dplyr::mutate_all(~./sd(.))
+      }
+      dataset_norm=dataset_norm %>%
+        dplyr::mutate(name=datacomp[[label]]) %>%
+        tibble::column_to_rownames({{label}})
+  }else{dataset_norm=dataset}
   return(dataset_norm)
 }

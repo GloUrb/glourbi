@@ -11,7 +11,6 @@
 #' global_map(all_cities,"X2018")
 #' global_map(all_cities,"clim")
 global_map <- function(dataset=all_cities,varname="X2018") {
-  vars=sep_vars(dataset)
   pal=fun_palette(dataset,varname)
   datamap=dataset %>%
     dplyr::mutate(colors=pal(dataset[[varname]]))

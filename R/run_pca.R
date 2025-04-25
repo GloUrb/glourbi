@@ -4,7 +4,7 @@
 #' @param dataset a glourbi dataset with varnames comparable to all_cities
 #' @param quali.sup a qualitative variable used for coloring points in factorial maps
 #' @return a PCA object
-#' 
+#'
 #' @export
 #' @examples
 #' data(all_cities)
@@ -13,12 +13,12 @@
 #' mypca=run_pca(all_cities_clust, quali.sup="cluster")
 #' mypca=run_pca(all_cities_clust,quali.sup="X2018")
 run_pca <- function(dataset, quali.sup=NULL){
-  datacomp=dataset %>% 
-    sep_vars() %>% 
+  datacomp=dataset %>%
+    sep_vars() %>%
     .$dataset
   dataset_num = dataset %>%
-    glourbi:::norm_data() 
-    
+    glourbi:::norm_data()
+
   if(!is.null(quali.sup)){
     if(quali.sup %in% sep_vars(dataset)$vars_cat){
         quali.sup.value=datacomp[[quali.sup]]
@@ -26,11 +26,11 @@ run_pca <- function(dataset, quali.sup=NULL){
     if(quali.sup %in% sep_vars(dataset)$vars_num){
         quali.sup.value=categorize(dataset,quali.sup)
     }
-    dataset_num=dataset_num %>% 
+    dataset_num=dataset_num %>%
           dplyr::mutate({{quali.sup}}:=as.factor(quali.sup.value))
     num_quali.sup=which(colnames(dataset_num)==quali.sup)
   }else{num_quali.sup=NULL}
-    
+
   pca=FactoMineR::PCA(dataset_num,
                       quali.sup=num_quali.sup,
                       graph=FALSE)

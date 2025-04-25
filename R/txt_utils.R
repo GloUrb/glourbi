@@ -10,7 +10,16 @@ get_txt_page=function(thisCityCode,
   tib_page=glourbi::get_city_tib(name="txt_page",
                                  thisCityCode=thisCityCode,
                                  conn=conn) %>%
-    dplyr::select(river_en,query,position,title,link,domain,trans_snippet,text_en,id)
+    dplyr::select(river_en,
+                  query,
+                  hl,
+                  position,
+                  title,
+                  link,
+                  domain,
+                  trans_snippet,
+                  text_en,
+                  id)
 
   if(length(thisRiver)==1){
     result=tib_page %>%

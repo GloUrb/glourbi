@@ -12,7 +12,7 @@
 #' @examples
 #' data(all_cities)
 #' mypca=run_pca(all_cities,quali.sup="clco")
-#' plot_pca(all_cities,mypca, type="var")
+#' plot_pca(all_cities_part_desc,mypca, type="var")
 #' plot_pca(all_cities,mypca, type="ind")
 #'
 #' all_cities_clust=run_hclust(all_cities, nclust=10)
