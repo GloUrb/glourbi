@@ -19,7 +19,8 @@ get_txt_page=function(thisCityCode,
                   domain,
                   trans_snippet,
                   text_en,
-                  id)
+                  id,
+                  lemmatext)
 
   if(length(thisRiver)==1){
     result=tib_page %>%
